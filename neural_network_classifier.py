@@ -94,22 +94,24 @@ def backward_pass(grad_loss: np.ndarray, weights: List[np.ndarray], biases: List
         grad = (grad @ weights[i].T) * d_relu(zs[i - 1])
         
     return d_weights, d_biases
-        
-#TODO: introduce batch gradient descent      
+           
 def train_neural_network(train_samples: np.ndarray,
                          train_labels: np.ndarray,
                          test_samples: np.ndarray,
                          test_labels: np.ndarray,
                          layers: List[int], 
                          num_iterations: int, 
+                         batch_size: int,
                          learning_rate: float,
                          momentum_constant: float) -> Tuple[List[np.ndarray], List[np.ndarray], np.ndarray, np.ndarray]:
     
     train_losses = []
     test_losses = []
     
-    batch_size = 1
+    assert 1 <= batch_size <= train_samples.shape[0]
+    assert train_samples.shape[0] % batch_size == 0
     batches_per_iteration = int(train_samples.shape[0] / batch_size)
+    
     
     weights, biases = init_weights(layers, input_dimension=train_samples.shape[-1], output_dimension=train_labels.shape[-1])
     
@@ -152,6 +154,7 @@ weights, biases, train_losses, test_losses = train_neural_network(train_samples,
                                                               test_labels,
                                                               layers=[64, 64],
                                                               num_iterations=num_iterations,
+                                                              batch_size=1,
                                                               learning_rate=5e-2,
                                                               momentum_constant=0.99)
 
@@ -170,4 +173,4 @@ plt.ylabel("Binary Cross Entropy Loss")
 plt.legend(["Test Loss", "Train Loss"])
 plt.show()
 
-# TODO: plot
+# TODO: plot the points
