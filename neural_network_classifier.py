@@ -82,10 +82,6 @@ def backward_pass(grad_loss: np.ndarray, weights: List[np.ndarray], biases: List
     d_biases = [None] * len(biases)
     
     grad = grad_loss * d_sigmoid(zs[-1])
-    #print(f"grad {grad_loss.shape}")
-    #print(f"sigmoid {d_sigmoid(zs[-1]).shape}")
-    #print(f"z {zs[-1].shape}")
-    #print(f"start grad {grad.shape}")
     
     for i in reversed(range(len(weights))):
         d_weights[i] = np.mean(np.expand_dims(hs[i], axis=2) * np.expand_dims(grad, axis=1), axis=0)
@@ -138,7 +134,6 @@ def train_neural_network(train_samples: np.ndarray,
                 weights[k] -= learning_rate * momentum_weights[k]
                 biases[k] -= learning_rate * momentum_biases[k]
             
-            # TODO
             test_losses.append(binary_cross_entropy(feed_forward(weights, biases, test_samples)[0], test_labels))
             
             
