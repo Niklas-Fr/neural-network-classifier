@@ -167,5 +167,3 @@ plt.xlabel("Gradient steps")
 plt.ylabel("Binary Cross Entropy Loss")
 plt.legend(["Test Loss", "Train Loss"])
 plt.show()
-
-# TODO: plot the points
